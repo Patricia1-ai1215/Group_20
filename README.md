@@ -8,6 +8,7 @@ Small interactive Python program to register a gym member, collect their persona
 ## Files
 
 part1.py — main program. The Member class handles all input collection, validation, fee calculations, and formatted output.
+part2.py — inheritance example. `PremiumMember` inherits from `GymMember` and adds premium training features.
 
 ## Classes
 
