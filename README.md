@@ -1,71 +1,163 @@
+# 🏋️ Gym Membership Management System
 
-# Gym Membership Management System — Part 1
+A Python project managing gym memberships using all 4 OOP principles.
 
-## About
+---
 
-Small interactive Python program to register a gym member, collect their personal details and membership information, compute fees and session estimates, and display a formatted membership summary.
+## 📁 Project Structure
 
-## Files
+```
+gym_membership/
+├── part1_member.py          
+├── part2_premium_member.py  
+├── gym_final.py             
+└── README.md
+```
 
-part1.py — main program. The Member class handles all input collection, validation, fee calculations, and formatted output.
-part2.py — inheritance example. `PremiumMember` inherits from `GymMember` and adds premium training features.
+---
 
-## Classes
+## 📄 Files
 
-**Person** (parent class)
-- Attributes : first_name, last_name, age, city
-- Property   : full_name → returns "First Last"
+| File | Description |
+|---|---|
+| `part1_member.py` | `Person` and `Member` — basic membership logic, public attributes |
+| `part2_premium_member.py` | `GymMember` and `PremiumMember` — premium logic, disconnected from Part 1 |
+| `gym_final.py` | Unified final version — all 4 OOP principles applied |
 
-**Member** (child of Person)
-- Extra attributes : member_id, membership_type, monthly_fee, months_paid, sessions_per_week, is_student, is_active
-- Methods          : total_paid(), annual_fee(), estimated_sessions(), discounted_annual()
-- Magic method     : __str__() for formatted summary output
-- Static methods   : get_float(), get_int() for input validation
-- Class method     : from_input() to create a Member interactively
+---
 
-## How to run
+## 🏗️ Class Hierarchy
 
-Open PowerShell and change to the project folder:
+```
+GymEntity  ← ABCMeta — enforces display_summary(), calculate_total()
+    └── Person        — name, age, city
+        └── Member    — fee, months, sessions, student discount
+            └── PremiumMember — training sessions and cost
+```
 
-    cd "path\to\your\project"
-    python part1.py
+---
 
-The program is interactive: it asks for first name, last name, age, city, member ID, membership type, monthly fee, months paid, sessions per week, and student status. If you enter a non-number or a value outside the expected range, it will ask again until a valid value is entered.
+## 🎯 OOP Principles
 
-## Example output
+| Principle | Where | What it does |
+|---|---|---|
+| **Abstraction** | `GymEntity` | Forces all subclasses to implement `display_summary()` and `calculate_total()` |
+| **Encapsulation** | All classes | `ValidatedProperty` stores attributes privately and validates every assignment |
+| **Inheritance** | Full chain | Each class calls `super().__init__()` and only adds what is new |
+| **Polymorphism** | `calculate_total()`, `display_summary()` | Overridden at each level — `process_member()` works on any type |
 
-    === Welcome to our Gym Membership Management System ===
-    === Register a new Member ===
-    Enter your First Name: Alice
-    Enter your Last Name: Ouedraogo
-    Enter your age: 22
-    Enter your city: Ouagadougou
-    Enter your Member ID: M001
+---
 
-    Membership types: Basic / Standard / Premium
-    Enter your membership type: Premium
-    Enter the monthly fee (XOF): 15000
-    Enter number of months paid (1-12): 6
-    Enter sessions per week (1-7): 4
-    Are you a student? (yes/no): yes
+## 🔄 What Changed
 
-    ******MEMBERSHIP SUMMARY******
-    Member      : Alice Ouedraogo
-    ID          : M001
-    Age         : 22
-    City        : Ouagadougou
-    Student     : True
-    Active      : True
-    -----Membership Details-----
-    Type              : Premium
-    Monthly Fee       : 15000.00 XOF
-    Months Paid       : 6
-    Total Paid        : 90000.00 XOF
-    Annual Fee        : 180000.00 XOF
-    Student Discount  : -18000.00 XOF
-    Discounted Annual : 162000.00 XOF
-    Est. Sessions     : 96
+| | Part 1 & 2 | Final |
+|---|---|---|
+| Attributes | Public | Private via `ValidatedProperty` |
+| Abstraction | None | `GymEntity` ABC |
+| Premium class | Separate file | Subclass of `Member` |
+| Polymorphism | None | `process_member()` on any type |
 
-    Welcome Alice Ouedraogo! Your membership is active. Keep it up!
+---
 
-    === Thank you for using our Gym Membership Management System ===
+## 📋 Sample Output
+
+### Standard Member
+```
+=== Welcome to the Gym Membership Management System ===
+  1. Standard Member
+  2. Premium Member
+Enter 1 or 2: 1
+
+=== Register a new Member ===
+First Name: John
+Last Name: Doe
+Age: 25
+City: Ouagadougou
+Member ID: M001
+Membership type ('Basic', 'Standard', 'Premium'): Standard
+Monthly fee (XOF): 15000
+Months paid (1-12): 3
+Sessions per week (1-7): 4
+Student? (yes/no): yes
+
+====== MEMBERSHIP SUMMARY ======
+Member      : John Doe  |  ID: M001
+Age         : 25  |  City: Ouagadougou
+Student     : True  |  Active: True
+--------------------------------
+Type              : Standard
+Monthly Fee       : 15000.00 XOF
+Months Paid       : 3
+Total Paid        : 45000.00 XOF
+Annual Fee        : 180000.00 XOF
+Discounted Annual : 162000.00 XOF
+Est. Sessions     : 48
+
+Welcome John Doe! Membership active. Keep it up!
+
+>>> Total cost calculated: 45000.00 XOF
+
+=== Thank you for using our Gym Membership Management System ===
+```
+
+### Premium Member
+```
+=== Welcome to the Gym Membership Management System ===
+  1. Standard Member
+  2. Premium Member
+Enter 1 or 2: 2
+
+=== Register a new Premium Member ===
+First Name: Aisha
+Last Name: Traore
+Age: 30
+City: Bobo-Dioulasso
+Member ID: P002
+Monthly fee (XOF): 25000
+Months paid (1-12): 6
+Sessions per week (1-7): 5
+Student? (yes/no): no
+Training sessions (0-10): 4
+Fee per session (XOF): 10000
+
+====== MEMBERSHIP SUMMARY ======
+Member      : Aisha Traore  |  ID: P002
+Age         : 30  |  City: Bobo-Dioulasso
+Student     : False  |  Active: True
+--------------------------------
+Type              : Premium
+Monthly Fee       : 25000.00 XOF
+Months Paid       : 6
+Total Paid        : 150000.00 XOF
+Annual Fee        : 300000.00 XOF
+Est. Sessions     : 120
+
+Welcome Aisha Traore! Membership active. Keep it up!
+------- Premium Details --------
+Training Sessions : 4
+Fee per Session   : 10000.00 XOF
+Training Cost     : 40000.00 XOF
+Total with Train. : 190000.00 XOF
+Premium Benefits  :
+  - Access to premium equipment
+  - Priority booking for classes
+  - Personal training sessions
+  - Free monthly fitness assessment
+
+>>> Total cost calculated: 190000.00 XOF
+
+=== Thank you for using our Gym Membership Management System ===
+```
+
+---
+
+## ▶️ How to Run
+
+```bash
+python gym_final.py
+```
+
+## 🛠️ Requirements
+
+- Python 3.8+
+- No external libraries — built-in `abc` module only
